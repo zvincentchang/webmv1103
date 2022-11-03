@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Login Form</title>
+</head>
+<body>
+<script src="js/jquery3.6.0.js"></script>
+<form id="form1">
+ 
+   User Name :<input type="text" id="user" name="user" value="George"/><br/>
+   Password:<input type="password" id="pwd" name="password" value="g001"/><br/>
+   <button>Send</button>
+ 
+</form>
+<div id="display"></div>
+<div id="st"></div>
+<script>
+    function show(data,status){
+        $("#st").text(status);
+        $("#display").html(data);
+    }
+    function send(e){
+        //alert("test");
+        e.preventDefault();
+        //var name=$("#user").val();
+        //var password=$("#pwd").val();
+        //var frm={"user":name,"password":password};
+        var frm=$("#form1").serialize();
+        alert(frm);
+        //$.post("UserPasswordServlet",frm,show);
+         $.ajax({
+               url:'UserPasswordServlet',
+               type :'POST',
+               data : frm,
+               contentType:"application/x-www-form-urlencoded",
+               cache: false,
+               datatype:"text/html",
+              success : function(data) 
+              {            	  
+                  $("#display").html(data);
+              },error: function(data) 
+              {
+                 console.log('無法送出');
+              }
+        });
+       
+    }
+    function start(){
+       $("#form1").submit(send);
+    }
+    $(document).ready(start);
+</script>
+</body>
+</html>
